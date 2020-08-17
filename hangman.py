@@ -17,7 +17,7 @@ def play(word):
     print(word_completion)
     print("\n")
     while not guessed and tries > 0:
-        guess = input("Please guess a letter or word:").upper()
+        guess = raw_input("Please guess a letter or word:").upper()
         if len(guess) == 1 and guess.isalpha():
             if guess in guessed_letters:
                 print ("You have already used that one!", guess)
@@ -127,7 +127,7 @@ def display_hangman(tries):
 def main():
     word = get_word()
     play(word)
-    while input ("Play Again! (Y/N) ").upper()=="Y":
+    while raw_input("Play Again! (Y/N) ").upper()=="Y":
         word = get_word()
         play(word)
 
