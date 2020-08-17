@@ -12,9 +12,12 @@ def play(word):
     guessed_letters = []
     guessed_words = []
     tries = 6
-   
+    print("Lets play Hangman!")
+    print(display_hangman(tries))
+    print(word_completion)
+    print("\n")
     while not guessed and tries > 0:
-        guess = input("Please guess a letter or word: ").upper()
+        guess = input("Please guess a letter or word:").upper()
         if len(guess) == 1 and guess.isalpha():
             if guess in guessed_letters:
                 print ("You have already used that one!", guess)
@@ -27,9 +30,11 @@ def play(word):
                 guessed_letters.append(guess)
                 word_as_list = list(word_completion)
                 indices = [ i for i, letter in enumerate(word) if letter == guess]
-                for "_" not in word_completion:
+                for index in indices:
+                    word_as_list[index] = guess
+                word_completion = "".join(word_as_list)
+                if "_" not in word_completion:
                     guessed = True
-    
         elif len(guess) == len(word) and guess.isalpha():
             if guess in guessed_words:
                 print("You have already gussed that word....tube", guess)
@@ -40,25 +45,89 @@ def play(word):
             else:
                 guessed = True
                 word_completion = word
-
         else:
-
-        print ("Nae luck try again...")
-        print("Lets play Hangman!")
+            print("Nae luck try again...")
         print(display_hangman(tries))
         print(word_completion)
         print("\n")
-    
     if guessed:
         print("Congrats, you guessed the word! Winnner!")
     else:
         print("GAME OVER, the word was" + word + ".")
 
+def display_hangman(tries):
+    stages = [
+            """
+                ---------
+                |       |
+                |       O
+                |      \\|/
+                |       |
+                |      / \\
+                -
+            """,
+            """
+                ---------
+                |       |
+                |       O
+                |      \\|/
+                |       |
+                |      / 
+                -
+            """,
+            """
+                ---------
+                |       |
+                |       O
+                |      \\|/
+                |       |
+                |       
+                -       
+            """,
+            """
+                ---------
+                |       |
+                |       O
+                |      \\|
+                |       |
+                |       
+                -
+            """,
+            """
+                ---------
+                |       |
+                |       O
+                |       |
+                |       |
+                |       
+                -
+            """,
+            """
+                ---------
+                |       |
+                |       O
+                |       
+                |       
+                |       
+                -
+            """,
+            """
+                ---------
+                |       |
+                |       
+                |       
+                |       
+                |       
+                -  
+            """               
+    ]
+    return stages[tries]
+
 
 def main():
     word = get_word()
     play(word)
-    while input ("Play Again! (Y/N").upper()=="Y":
+    while input ("Play Again! (Y/N)".upper()=="Y":
         word = get_word()
         play(word)
 
